@@ -347,6 +347,18 @@ export const env = createEnv({
     // EE License
     LANGFUSE_EE_LICENSE_KEY: z.string().optional(),
     ADMIN_API_KEY: z.string().optional(),
+    // Self-built (non-EE) admin API bearer token. When set, enables the
+    // jolliedu admin REST endpoints under /api/jolliedu/*. Requires a
+    // high-entropy value (generate via: openssl rand -hex 32). Empty strings
+    // are treated as unset (emptyStringAsUndefined), so the feature stays
+    // disabled unless a real token is provided.
+    SELF_ADMIN_API_KEY: z
+      .string()
+      .min(
+        32,
+        "SELF_ADMIN_API_KEY must be at least 32 characters; generate via: openssl rand -hex 32",
+      )
+      .optional(),
     ENCRYPTION_KEY: z
       .string()
       .length(
@@ -1023,6 +1035,7 @@ export const env = createEnv({
     // EE License
     LANGFUSE_EE_LICENSE_KEY: process.env.LANGFUSE_EE_LICENSE_KEY,
     ADMIN_API_KEY: process.env.ADMIN_API_KEY,
+    SELF_ADMIN_API_KEY: process.env.SELF_ADMIN_API_KEY,
     ENCRYPTION_KEY: process.env.ENCRYPTION_KEY,
     // langfuse caching
     LANGFUSE_CACHE_API_KEY_ENABLED: process.env.LANGFUSE_CACHE_API_KEY_ENABLED,
