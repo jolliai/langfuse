@@ -20,6 +20,8 @@
 - tRPC routers: `src/server/api/routers/*`, `src/features/*/server/*`
 - Public REST API routes: `src/pages/api/public/*`
 - Unstable public eval APIs: `src/pages/api/public/unstable/{evaluators,evaluation-rules}/*`
+- Self-built (non-EE) admin REST API: `src/jolliedu/*` (handlers), routed by
+  thin shims under `src/pages/api/jolliedu/*`; see `src/jolliedu/README.md`
 - Feature modules: `src/features/*`
 - Reusable UI components: `src/components/*`
 - Tests:

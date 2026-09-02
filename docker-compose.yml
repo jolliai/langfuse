@@ -113,6 +113,8 @@ services:
     environment:
       <<: *langfuse-worker-env
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-mysecret} # CHANGEME
+      # jolliedu self-built (non-EE) admin API bearer token; enables /api/jolliedu/*
+      SELF_ADMIN_API_KEY: ${SELF_ADMIN_API_KEY:-} # CHANGEME: openssl rand -hex 32
       LANGFUSE_S3_MEDIA_UPLOAD_ENDPOINT: ${LANGFUSE_S3_MEDIA_UPLOAD_ENDPOINT:-http://localhost:9090}
       LANGFUSE_S3_MEDIA_UPLOAD_INTERNAL_ENDPOINT: ${LANGFUSE_S3_MEDIA_UPLOAD_INTERNAL_ENDPOINT:-http://minio:9000}
       LANGFUSE_INIT_ORG_ID: ${LANGFUSE_INIT_ORG_ID:-}
@@ -182,7 +184,7 @@ services:
       --requirepass ${REDIS_AUTH:-myredissecret}
       --maxmemory-policy noeviction
     ports:
-      - 127.0.0.1:6379:6379
+      - 127.0.0.1:${REDIS_HOST_PORT:-6379}:6379
     volumes:
       - langfuse_redis_data:/data
     healthcheck:
@@ -206,7 +208,7 @@ services:
       TZ: UTC
       PGTZ: UTC
     ports:
-      - 127.0.0.1:5432:5432
+      - 127.0.0.1:${POSTGRES_HOST_PORT:-5432}:5432
     volumes:
       - langfuse_postgres_data:/var/lib/postgresql/data
 
